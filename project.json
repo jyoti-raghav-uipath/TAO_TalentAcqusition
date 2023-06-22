@@ -5,7 +5,7 @@
   "dependencies": {
     "UiPath.DataService.Activities": "[21.10.1]",
     "UiPath.FormActivityLibrary": "[2.0.5]",
-    "UiPath.MicrosoftOffice365.Activities": "[1.14.1]",
+    "UiPath.MicrosoftOffice365.Activities": "[2.2.3]",
     "UiPath.Persistence.Activities": "[1.4.6]",
     "UiPath.System.Activities": "[23.4.3]"
   },
@@ -15,12 +15,12 @@
       "serviceDocument": ".entities/EntitiesStore.json",
       "tenantName": "DSF_Internal",
       "namespace": "HR_TAOTalentAcquisitionRecruiting",
-      "uniqueReference": "jGi7bBGSPkFs9eAt2Q6bFG3Wkpir/83Tb6ryzKD3r4Q="
+      "uniqueReference": "kMBQ+dqXtlVRCVD8RoC1nWLdwWWqJro+p9Km+CJ+goI="
     }
   ],
   "schemaVersion": "4.0",
   "studioVersion": "22.4.0.0",
-  "projectVersion": "1.0.15",
+  "projectVersion": "1.0.25",
   "runtimeOptions": {
     "autoDispose": false,
     "netFrameworkLazyLoading": false,
