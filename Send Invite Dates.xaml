@@ -1,12 +1,16 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="Send_Invite_Dates" this:Send_Invite_Dates.in_CandidateName="Daniel Andrews" this:Send_Invite_Dates.in_JobID="J0034" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:h="clr-namespace:HR_TAOTalentAcquisitionRecruiting;assembly=DataService.HR_TAOTalentAcquisitionRecruiting" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mg="clr-namespace:Microsoft.Graph;assembly=Microsoft.Graph" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:this="clr-namespace:" xmlns:uda="clr-namespace:UiPath.DataService.Activities;assembly=UiPath.DataService.Activities.Core" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:uma="clr-namespace:UiPath.MicrosoftOffice365.Activities;assembly=UiPath.MicrosoftOffice365.Activities" xmlns:umac="clr-namespace:UiPath.MicrosoftOffice365.Activities.Calendar;assembly=UiPath.MicrosoftOffice365.Activities" xmlns:umam="clr-namespace:UiPath.MicrosoftOffice365.Activities.Mail;assembly=UiPath.MicrosoftOffice365.Activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="Send_Invite_Dates" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:h="clr-namespace:HR_TAOTalentAcquisitionRecruiting;assembly=DataService.HR_TAOTalentAcquisitionRecruiting" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mg="clr-namespace:Microsoft.Graph;assembly=Microsoft.Graph" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:this="clr-namespace:" xmlns:uda="clr-namespace:UiPath.DataService.Activities;assembly=UiPath.DataService.Activities.Core" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:uma="clr-namespace:UiPath.MicrosoftOffice365.Activities;assembly=UiPath.MicrosoftOffice365.Activities" xmlns:umac="clr-namespace:UiPath.MicrosoftOffice365.Activities.Calendar;assembly=UiPath.MicrosoftOffice365.Activities" xmlns:umam="clr-namespace:UiPath.MicrosoftOffice365.Activities.Mail;assembly=UiPath.MicrosoftOffice365.Activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property Name="in_CandidateName" Type="InArgument(x:String)" />
     <x:Property Name="in_JobID" Type="InArgument(x:String)" />
+    <x:Property Name="RecruiterEmail" Type="InArgument(x:String)" />
   </x:Members>
+  <this:Send_Invite_Dates.RecruiterEmail>
+    <InArgument x:TypeArguments="x:String" />
+  </this:Send_Invite_Dates.RecruiterEmail>
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1150,3954.66666666667</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1186,4920.66666666667</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>Send_Invite_Dates_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="38">
@@ -89,23 +93,26 @@
       <AssemblyReference>System.Linq.Async</AssemblyReference>
       <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
       <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
+      <AssemblyReference>System.Collections.Immutable</AssemblyReference>
+      <AssemblyReference>System.Linq.Async.Queryable</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="Send_Invite_Dates" sap:VirtualizedContainerService.HintSize="592,3890" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="Send_Invite_Dates" sap:VirtualizedContainerService.HintSize="1196,4856" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="scg:IList(h:TAO)" Name="CurrentRecords" />
-      <Variable x:TypeArguments="x:String" Name="RecruiterEmail" />
       <Variable x:TypeArguments="x:String" Name="CandidateEmail" />
       <Variable x:TypeArguments="s:String[]" Name="arrayEmail" />
+      <Variable x:TypeArguments="x:String" Name="mailBody" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="530,96" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;Send Invite Dates workflow started!&quot;]" />
-    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="530,96" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Sending tentative invites&quot;]" />
-    <uda:QueryEntityRecords x:TypeArguments="h:TAO" TotalRecords="{x:Null}" ContinueOnError="False" DisplayName="Query Entity Records" ExpansionDepth="2" sap:VirtualizedContainerService.HintSize="530,226.666666666667" sap2010:WorkflowViewState.IdRef="QueryEntityRecords`1_1" OutputRecords="[CurrentRecords]" Skip="0" SortAscending="True" SortByField="Id" TimeoutInMs="30000" Top="100">
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="1134,96" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;Send Invite Dates workflow started!&quot;]" />
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="1134,96" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Sending tentative invites&quot;]" />
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="1134,96" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Info" Message="[&quot;UserName: &quot; + in_CandidateName +Environment.NewLine + &quot;JobID: &quot; + in_JobID]" />
+    <uda:QueryEntityRecords x:TypeArguments="h:TAO" TotalRecords="{x:Null}" ContinueOnError="False" DisplayName="Query Entity Records" ExpansionDepth="2" sap:VirtualizedContainerService.HintSize="1134,226.666666666667" sap2010:WorkflowViewState.IdRef="QueryEntityRecords`1_1" OutputRecords="[CurrentRecords]" Skip="0" SortAscending="True" SortByField="Id" TimeoutInMs="30000" Top="100">
       <uda:QueryEntityRecords.FilterArguments>
         <uda:FilterArgument FilterActivityType="h:TAO">
           <uda:FilterArgument.Filter>
@@ -136,18 +143,10 @@
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
     </uda:QueryEntityRecords>
-    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="530,96" sap2010:WorkflowViewState.IdRef="LogMessage_4" Message="[&quot;Sending invite to &quot;+CurrentRecords(0).CandidateEmail+ CurrentRecords.Count.ToString]" />
-    <ui:MultipleAssign DisplayName="Multiple Assign Entity" sap:VirtualizedContainerService.HintSize="530,131.333333333333" sap2010:WorkflowViewState.IdRef="MultipleAssign_1">
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="1134,96" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Info" Message="[&quot;Sending invite to &quot;+CurrentRecords(0).CandidateEmail+ CurrentRecords.Count.ToString]" />
+    <ui:MultipleAssign DisplayName="Multiple Assign Entity" sap:VirtualizedContainerService.HintSize="1134,100.666666666667" sap2010:WorkflowViewState.IdRef="MultipleAssign_1">
       <ui:MultipleAssign.AssignOperations>
         <scg:List x:TypeArguments="ui:AssignOperation" Capacity="4">
-          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_1">
-            <ui:AssignOperation.To>
-              <OutArgument x:TypeArguments="x:String">[RecruiterEmail]</OutArgument>
-            </ui:AssignOperation.To>
-            <ui:AssignOperation.Value>
-              <InArgument x:TypeArguments="x:String">[CurrentRecords(0).RecruiterEmail]</InArgument>
-            </ui:AssignOperation.Value>
-          </ui:AssignOperation>
           <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_2">
             <ui:AssignOperation.To>
               <OutArgument x:TypeArguments="x:String">[CandidateEmail]</OutArgument>
@@ -165,7 +164,53 @@
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
     </ui:MultipleAssign>
-    <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="530,25.3333333333333" sap2010:WorkflowViewState.IdRef="CommentOut_6">
+    <ui:CommentOut DisplayName="Comment Out- Recruiter Email Extraction" sap:VirtualizedContainerService.HintSize="1134,25.3333333333333" sap2010:WorkflowViewState.IdRef="CommentOut_7">
+      <ui:CommentOut.Body>
+        <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="450,136" sap2010:WorkflowViewState.IdRef="Sequence_9">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:MultipleAssign DisplayName="Multiple Assign Entity" sap:VirtualizedContainerService.HintSize="388,25.3333333333333" sap2010:WorkflowViewState.IdRef="MultipleAssign_3">
+            <ui:MultipleAssign.AssignOperations>
+              <scg:List x:TypeArguments="ui:AssignOperation" Capacity="4">
+                <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_5">
+                  <ui:AssignOperation.To>
+                    <OutArgument x:TypeArguments="x:String">[RecruiterEmail]</OutArgument>
+                  </ui:AssignOperation.To>
+                  <ui:AssignOperation.Value>
+                    <InArgument x:TypeArguments="x:String">[CurrentRecords(0).RecruiterEmail]</InArgument>
+                  </ui:AssignOperation.Value>
+                </ui:AssignOperation>
+                <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_6">
+                  <ui:AssignOperation.To>
+                    <OutArgument x:TypeArguments="x:String">[CandidateEmail]</OutArgument>
+                  </ui:AssignOperation.To>
+                  <ui:AssignOperation.Value>
+                    <InArgument x:TypeArguments="x:String">[CurrentRecords(0). CandidateEmail]</InArgument>
+                  </ui:AssignOperation.Value>
+                </ui:AssignOperation>
+              </scg:List>
+            </ui:MultipleAssign.AssignOperations>
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </ui:MultipleAssign>
+        </Sequence>
+      </ui:CommentOut.Body>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:CommentOut>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="1134,96" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Info" Message="[&quot;Recruiter EmailID : &quot; +RecruiterEmail + Environment.NewLine + &quot;Candidate EmailID: &quot; + CandidateEmail]" />
+    <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="1134,25.3333333333333" sap2010:WorkflowViewState.IdRef="CommentOut_6">
       <ui:CommentOut.Body>
         <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="484.666666666667,242" sap2010:WorkflowViewState.IdRef="Sequence_8">
           <sap:WorkflowViewStateService.ViewState>
@@ -210,7 +255,7 @@
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
     </ui:CommentOut>
-    <Assign DisplayName="Assign Recuriter Email" sap:VirtualizedContainerService.HintSize="530,85.3333333333333" sap2010:WorkflowViewState.IdRef="Assign_1">
+    <Assign DisplayName="Assign Recuriter Email" sap:VirtualizedContainerService.HintSize="1134,85.3333333333333" sap2010:WorkflowViewState.IdRef="Assign_1">
       <Assign.To>
         <OutArgument x:TypeArguments="s:String[]">[arrayEmail]</OutArgument>
       </Assign.To>
@@ -218,13 +263,13 @@
         <InArgument x:TypeArguments="s:String[]">[{RecruiterEmail}]</InArgument>
       </Assign.Value>
     </Assign>
-    <uma:Office365ApplicationScope ApplicationSecret="{x:Null}" CertificateAsBase64="{x:Null}" CertificatePassword="{x:Null}" ContinueOnError="{x:Null}" Password="{x:Null}" SecureApplicationSecret="{x:Null}" SecurePassword="{x:Null}" Timeout="{x:Null}" Username="{x:Null}" ApplicationId="17ce54a9-9a4d-42dd-8718-5d29cacbc4b6" AuthenticationType="InteractiveToken" DisplayName="Microsoft Office 365 Scope" Environment="Global" sap:VirtualizedContainerService.HintSize="530,2606.66666666667" sap2010:WorkflowViewState.IdRef="Office365ApplicationScope_1" OAuth2Username="jyoti.raghav@uipath.com" OAuthApplication="UiPath" Services="Mail, Calendar" Tenant="d8353d2a-b153-4d17-8827-902c51f72357">
+    <uma:Office365ApplicationScope ApplicationSecret="{x:Null}" CertificateAsBase64="{x:Null}" CertificatePassword="{x:Null}" ContinueOnError="{x:Null}" Password="{x:Null}" SecureApplicationSecret="{x:Null}" SecurePassword="{x:Null}" Timeout="{x:Null}" Username="{x:Null}" ApplicationId="17ce54a9-9a4d-42dd-8718-5d29cacbc4b6" AuthenticationType="InteractiveToken" DisplayName="Microsoft Office 365 Scope" Environment="Global" sap:VirtualizedContainerService.HintSize="1134,3266" sap2010:WorkflowViewState.IdRef="Office365ApplicationScope_1" OAuth2Username="jyoti.raghav@uipath.com" OAuthApplication="UiPath" Services="Mail, Calendar" Tenant="d8353d2a-b153-4d17-8827-902c51f72357">
       <uma:Office365ApplicationScope.Body>
         <ActivityAction x:TypeArguments="mg:GraphServiceClient">
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="mg:GraphServiceClient" Name="ParentScope" />
           </ActivityAction.Argument>
-          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="496,2519.33333333333" sap2010:WorkflowViewState.IdRef="Sequence_2">
+          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="1100,3178.66666666667" sap2010:WorkflowViewState.IdRef="Sequence_2">
             <Sequence.Variables>
               <Variable x:TypeArguments="mg:MeetingTimeSuggestion[]" Name="timeslots1" />
               <Variable x:TypeArguments="mg:MeetingTimeSuggestion[]" Name="timeslots2" />
@@ -238,7 +283,7 @@
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
-            <Assign DisplayName="Assign Date 1" sap:VirtualizedContainerService.HintSize="434,85.3333333333333" sap2010:WorkflowViewState.IdRef="Assign_2">
+            <Assign DisplayName="Assign Date 1" sap:VirtualizedContainerService.HintSize="1038,85.3333333333333" sap2010:WorkflowViewState.IdRef="Assign_2">
               <Assign.To>
                 <OutArgument x:TypeArguments="s:DateTime">[TentativeInterviewDate1]</OutArgument>
               </Assign.To>
@@ -246,7 +291,7 @@
                 <InArgument x:TypeArguments="s:DateTime">[Date.Now.AddDays(if(date.Now.DayOfWeek.ToString.ToLower="friday",3,1))]</InArgument>
               </Assign.Value>
             </Assign>
-            <Assign DisplayName="Assign Date 2" sap:VirtualizedContainerService.HintSize="434,85.3333333333333" sap2010:WorkflowViewState.IdRef="Assign_3">
+            <Assign DisplayName="Assign Date 2" sap:VirtualizedContainerService.HintSize="1038,85.3333333333333" sap2010:WorkflowViewState.IdRef="Assign_3">
               <Assign.To>
                 <OutArgument x:TypeArguments="s:DateTime">[TentativeInterviewDate2]</OutArgument>
               </Assign.To>
@@ -254,7 +299,7 @@
                 <InArgument x:TypeArguments="s:DateTime">[TentativeInterviewDate1.AddDays(if(TentativeInterviewDate1.DayOfWeek.ToString.ToLower="friday",3,1))]</InArgument>
               </Assign.Value>
             </Assign>
-            <Assign DisplayName="Assign Date 3" sap:VirtualizedContainerService.HintSize="434,85.3333333333333" sap2010:WorkflowViewState.IdRef="Assign_4">
+            <Assign DisplayName="Assign Date 3" sap:VirtualizedContainerService.HintSize="1038,85.3333333333333" sap2010:WorkflowViewState.IdRef="Assign_4">
               <Assign.To>
                 <OutArgument x:TypeArguments="s:DateTime">[TentativeInterviewDate3]</OutArgument>
               </Assign.To>
@@ -262,8 +307,8 @@
                 <InArgument x:TypeArguments="s:DateTime">[TentativeInterviewDate2.AddDays(if(TentativeInterviewDate2.DayOfWeek.ToString.ToLower="friday",3,1))]</InArgument>
               </Assign.Value>
             </Assign>
-            <umac:FindMeetingTimes AvailableTimeslots="{x:Null}" EmptySuggestionsReason="{x:Null}" Locations="{x:Null}" MeetingDuration="{x:Null}" Attendees="[arrayEmail]" DisplayName="Find Meeting Times" sap:VirtualizedContainerService.HintSize="434,218.666666666667" sap2010:WorkflowViewState.IdRef="FindMeetingTimes_4" IntervalEnd="[convert.ToDateTime(TentativeInterviewDate1.ToShortDateString+&quot; 06:00:00 PM&quot;)]" IntervalStart="[convert.ToDateTime(TentativeInterviewDate1.ToShortDateString+&quot; 09:00:00 AM&quot;)]" OrganizerRequired="True" Policy="Work" TimeZone="India Standard Time" />
-            <umac:FindMeetingTimes EmptySuggestionsReason="{x:Null}" Locations="{x:Null}" Attendees="[arrayEmail]" AvailableTimeslots="[timeslots1]" DisplayName="Find Meeting Times 1" sap:VirtualizedContainerService.HintSize="434,218.666666666667" sap2010:WorkflowViewState.IdRef="FindMeetingTimes_1" IntervalEnd="[convert.ToDateTime(TentativeInterviewDate1.ToShortDateString+&quot; 06:00:00 PM&quot;)]" IntervalStart="[convert.ToDateTime(TentativeInterviewDate1.ToShortDateString+&quot; 09:00:00 AM&quot;)]" MeetingDuration="60" OrganizerRequired="True" Policy="Unrestricted" TimeZone="India Standard Time">
+            <umac:FindMeetingTimes AvailableTimeslots="{x:Null}" EmptySuggestionsReason="{x:Null}" Locations="{x:Null}" MeetingDuration="{x:Null}" Attendees="[arrayEmail]" DisplayName="Find Meeting Times" sap:VirtualizedContainerService.HintSize="1038,113.333333333333" sap2010:WorkflowViewState.IdRef="FindMeetingTimes_4" IntervalEnd="[convert.ToDateTime(TentativeInterviewDate1.ToShortDateString+&quot; 06:00:00 PM&quot;)]" IntervalStart="[convert.ToDateTime(TentativeInterviewDate1.ToShortDateString+&quot; 09:00:00 AM&quot;)]" OrganizerRequired="True" Policy="Work" TimeZone="India Standard Time" />
+            <umac:FindMeetingTimes EmptySuggestionsReason="{x:Null}" Locations="{x:Null}" Attendees="[arrayEmail]" AvailableTimeslots="[timeslots1]" DisplayName="Find Meeting Times 1" sap:VirtualizedContainerService.HintSize="1038,113.333333333333" sap2010:WorkflowViewState.IdRef="FindMeetingTimes_1" IntervalEnd="[convert.ToDateTime(TentativeInterviewDate1.ToShortDateString+&quot; 06:00:00 PM&quot;)]" IntervalStart="[convert.ToDateTime(TentativeInterviewDate1.ToShortDateString+&quot; 09:00:00 AM&quot;)]" MeetingDuration="60" OrganizerRequired="True" Policy="Unrestricted" TimeZone="India Standard Time">
               <sap:WorkflowViewStateService.ViewState>
                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                   <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -271,7 +316,7 @@
                 </scg:Dictionary>
               </sap:WorkflowViewStateService.ViewState>
             </umac:FindMeetingTimes>
-            <umac:FindMeetingTimes EmptySuggestionsReason="{x:Null}" Locations="{x:Null}" Attendees="[arrayEmail]" AvailableTimeslots="[timeslots2]" DisplayName="Find Meeting Times 2" sap:VirtualizedContainerService.HintSize="434,113.333333333333" sap2010:WorkflowViewState.IdRef="FindMeetingTimes_2" IntervalEnd="[convert.ToDateTime(TentativeInterviewDate2.ToShortDateString+&quot; 06:00:00 PM&quot;)]" IntervalStart="[convert.ToDateTime(TentativeInterviewDate2.ToShortDateString+&quot; 09:00:00 AM&quot;)]" MeetingDuration="60" OrganizerRequired="True" Policy="Unrestricted" TimeZone="India Standard Time">
+            <umac:FindMeetingTimes EmptySuggestionsReason="{x:Null}" Locations="{x:Null}" Attendees="[arrayEmail]" AvailableTimeslots="[timeslots2]" DisplayName="Find Meeting Times 2" sap:VirtualizedContainerService.HintSize="1038,113.333333333333" sap2010:WorkflowViewState.IdRef="FindMeetingTimes_2" IntervalEnd="[convert.ToDateTime(TentativeInterviewDate2.ToShortDateString+&quot; 06:00:00 PM&quot;)]" IntervalStart="[convert.ToDateTime(TentativeInterviewDate2.ToShortDateString+&quot; 09:00:00 AM&quot;)]" MeetingDuration="60" OrganizerRequired="True" Policy="Unrestricted" TimeZone="India Standard Time">
               <sap:WorkflowViewStateService.ViewState>
                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                   <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -279,7 +324,7 @@
                 </scg:Dictionary>
               </sap:WorkflowViewStateService.ViewState>
             </umac:FindMeetingTimes>
-            <umac:FindMeetingTimes EmptySuggestionsReason="{x:Null}" Locations="{x:Null}" Attendees="[arrayEmail]" AvailableTimeslots="[timeslots3]" DisplayName="Find Meeting Times 3" sap:VirtualizedContainerService.HintSize="434,113.333333333333" sap2010:WorkflowViewState.IdRef="FindMeetingTimes_3" IntervalEnd="[convert.ToDateTime(TentativeInterviewDate3.ToShortDateString+&quot; 06:00:00 PM&quot;)]" IntervalStart="[convert.ToDateTime(TentativeInterviewDate3.ToShortDateString+&quot; 09:00:00 AM&quot;)]" MeetingDuration="60" OrganizerRequired="True" Policy="Unrestricted" TimeZone="India Standard Time">
+            <umac:FindMeetingTimes EmptySuggestionsReason="{x:Null}" Locations="{x:Null}" Attendees="[arrayEmail]" AvailableTimeslots="[timeslots3]" DisplayName="Find Meeting Times 3" sap:VirtualizedContainerService.HintSize="1038,113.333333333333" sap2010:WorkflowViewState.IdRef="FindMeetingTimes_3" IntervalEnd="[convert.ToDateTime(TentativeInterviewDate3.ToShortDateString+&quot; 06:00:00 PM&quot;)]" IntervalStart="[convert.ToDateTime(TentativeInterviewDate3.ToShortDateString+&quot; 09:00:00 AM&quot;)]" MeetingDuration="60" OrganizerRequired="True" Policy="Unrestricted" TimeZone="India Standard Time">
               <sap:WorkflowViewStateService.ViewState>
                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                   <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -287,35 +332,289 @@
                 </scg:Dictionary>
               </sap:WorkflowViewStateService.ViewState>
             </umac:FindMeetingTimes>
-            <umam:SendMail Account="{x:Null}" AttachmentsCollection="{x:Null}" Bcc="{x:Null}" Cc="{x:Null}" From="{x:Null}" ReplyTo="{x:Null}" Body="[&quot;Hi &quot;+in_CandidateName+&quot;,&lt;br&gt;&lt;br&gt;Your application for the Revenue Excellence Operations Analyst position caught our attention, and we’d like to invite you for an interview. This is a chance to learn more about the position and for us to learn more about you.You will meet with the Finance department manager. The interview will last about 60 minutes and you’ll have the chance to discuss the Revenue Excellence Operations Analyst position and learn more about our company. Please have your portfolio or resume handy for the discussion. &lt;br&gt;&lt;br&gt;Please feel free to choose the time that suits you best at the following link:&lt;br&gt;&lt;br&gt;&lt;a href = &quot;&quot;mailto: &quot;+RecruiterEmail+&quot;?subject= Available for interview Job ID:&quot;+in_JobID+&quot; Candidate Name:&quot;+in_CandidateName+&quot;&amp;body=I will be available for interview on &quot;+convert.ToDateTime(timeslots1(0).MeetingTimeSlot.Start.DateTime).ToString+&quot;&quot;&quot; &gt;&quot;+convert.ToDateTime(timeslots1(0).MeetingTimeSlot.Start.DateTime).ToString+&quot;&lt;/a&gt;&lt;br&gt;&lt;br&gt;&lt;a href = &quot;&quot;mailto: &quot;+RecruiterEmail+&quot;?subject=Available for interview&amp;body=I will be available for interview on &quot;+convert.ToDateTime(timeslots2(0).MeetingTimeSlot.Start.DateTime).ToString+&quot;&quot;&quot; &gt;&quot;+convert.ToDateTime(timeslots2(0).MeetingTimeSlot.Start.DateTime).ToString+&quot;&lt;/a&gt;&lt;br&gt;&lt;br&gt;&lt;a href = &quot;&quot;mailto: &quot;+RecruiterEmail+&quot;?subject=Available for interview&amp;body=I will be available For interview On &quot;+convert.ToDateTime(timeslots3(0).MeetingTimeSlot.Start.DateTime).ToString+&quot;&quot;&quot; &gt;&quot;+convert.ToDateTime(timeslots3(0).MeetingTimeSlot.Start.DateTime).ToString+&quot;&lt;/a&gt;&lt;br&gt;&lt;br&gt;Looking forward to hearing from you,&lt;br&gt;Talent Acquisition Lead&quot;]" DisplayName="Send Mail" sap:VirtualizedContainerService.HintSize="434,362.666666666667" sap2010:WorkflowViewState.IdRef="SendMail_2" Importance="Normal" IsBodyHTML="True" IsDraft="False" Subject="Selected for interview" To="[CandidateEmail.Split]">
+            <Assign sap:VirtualizedContainerService.HintSize="1038,85.3333333333333" sap2010:WorkflowViewState.IdRef="Assign_6">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[mailBody]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">["Hi "+in_CandidateName+",&lt;br&gt;&lt;br&gt;Your application for the Revenue Excellence Operations Analyst position caught our attention, and we’d like to invite you for an interview. This is a chance to learn more about the position and for us to learn more about you.You will meet with the Finance department manager. The interview will last about 60 minutes and you’ll have the chance to discuss the Revenue Excellence Operations Analyst position and learn more about our company. Please have your portfolio or resume handy for the discussion. &lt;br&gt;&lt;br&gt;Please feel free to choose the time that suits you best at the following link:&lt;br&gt;&lt;br&gt;"]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <If Condition="[not timeslots1.Count=0]" sap:VirtualizedContainerService.HintSize="1038,361.333333333333" sap2010:WorkflowViewState.IdRef="If_1">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <If.Then>
+                <Sequence sap:VirtualizedContainerService.HintSize="496,196" sap2010:WorkflowViewState.IdRef="Sequence_10">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <Assign sap:VirtualizedContainerService.HintSize="434,85.3333333333333" sap2010:WorkflowViewState.IdRef="Assign_14">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:String">[mailBody]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:String">[mailBody + "&lt;a href = ""mailto: "+RecruiterEmail+"?subject= Available for interview Job ID:"+in_JobID+" Candidate Name:"+in_CandidateName+"&amp;body=I will be available for interview on "+convert.ToDateTime(timeslots1(0).MeetingTimeSlot.Start.DateTime).ToString+""" &gt;"+convert.ToDateTime(timeslots1(0).MeetingTimeSlot.Start.DateTime).ToString+"&lt;/a&gt;&lt;br&gt;&lt;br&gt;"]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                </Sequence>
+              </If.Then>
+              <If.Else>
+                <Sequence sap:VirtualizedContainerService.HintSize="496,196" sap2010:WorkflowViewState.IdRef="Sequence_11">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <Assign sap:VirtualizedContainerService.HintSize="434,85.3333333333333" sap2010:WorkflowViewState.IdRef="Assign_8">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:String">[mailBody]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:String">[mailBody]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                </Sequence>
+              </If.Else>
+            </If>
+            <If Condition="[not timeslots2.Count=0]" sap:VirtualizedContainerService.HintSize="1038,361.333333333333" sap2010:WorkflowViewState.IdRef="If_2">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <If.Then>
+                <Sequence sap:VirtualizedContainerService.HintSize="496,196" sap2010:WorkflowViewState.IdRef="Sequence_12">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <Assign sap:VirtualizedContainerService.HintSize="434,85.3333333333333" sap2010:WorkflowViewState.IdRef="Assign_15">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:String">[mailBody]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:String">[mailBody +"&lt;a href = ""mailto: "+RecruiterEmail+"?subject= Available for interview Job ID:"+in_JobID+" Candidate Name:"+in_CandidateName+"&amp;body=I will be available for interview on "+convert.ToDateTime(timeslots2(0).MeetingTimeSlot.Start.DateTime).ToString+""" &gt;"+convert.ToDateTime(timeslots2(0).MeetingTimeSlot.Start.DateTime).ToString+"&lt;/a&gt;&lt;br&gt;&lt;br&gt;"]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                </Sequence>
+              </If.Then>
+              <If.Else>
+                <Sequence sap:VirtualizedContainerService.HintSize="496,196" sap2010:WorkflowViewState.IdRef="Sequence_13">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <Assign sap:VirtualizedContainerService.HintSize="434,85.3333333333333" sap2010:WorkflowViewState.IdRef="Assign_10">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:String">[mailBody]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:String">[mailBody]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                </Sequence>
+              </If.Else>
+            </If>
+            <If Condition="[not timeslots3.Count=0]" sap:VirtualizedContainerService.HintSize="1038,361.333333333333" sap2010:WorkflowViewState.IdRef="If_3">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <If.Then>
+                <Sequence sap:VirtualizedContainerService.HintSize="496,196" sap2010:WorkflowViewState.IdRef="Sequence_14">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <Assign sap:VirtualizedContainerService.HintSize="434,85.3333333333333" sap2010:WorkflowViewState.IdRef="Assign_11">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:String">[mailBody]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:String">[mailBody + "&lt;a href = ""mailto: "+RecruiterEmail+"?subject= Available for interview Job ID:"+in_JobID+" Candidate Name:"+in_CandidateName+"&amp;body=I will be available for interview on "+convert.ToDateTime(timeslots3(0).MeetingTimeSlot.Start.DateTime).ToString+""" &gt;"+convert.ToDateTime(timeslots3(0).MeetingTimeSlot.Start.DateTime).ToString+"&lt;/a&gt;&lt;br&gt;&lt;br&gt;"]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                </Sequence>
+              </If.Then>
+              <If.Else>
+                <Sequence sap:VirtualizedContainerService.HintSize="496,196" sap2010:WorkflowViewState.IdRef="Sequence_15">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <Assign sap:VirtualizedContainerService.HintSize="434,85.3333333333333" sap2010:WorkflowViewState.IdRef="Assign_12">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:String">[mailBody]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:String">[mailBody]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                </Sequence>
+              </If.Else>
+            </If>
+            <Assign sap:VirtualizedContainerService.HintSize="1038,85.3333333333333" sap2010:WorkflowViewState.IdRef="Assign_13">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[mailBody]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[mailBody+ "Looking forward to hearing from you,&lt;br&gt;Talent Acquisition Lead"]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <umam:SendMail Account="{x:Null}" AttachmentsCollection="{x:Null}" Bcc="{x:Null}" From="{x:Null}" ReplyTo="{x:Null}" Body="[mailBody]" Cc="[{RecruiterEmail}]" DisplayName="Send Mail" sap:VirtualizedContainerService.HintSize="1038,362.666666666667" sap2010:WorkflowViewState.IdRef="SendMail_3" Importance="Normal" IsBodyHTML="True" IsDraft="False" Subject="Selected for interview" To="[CandidateEmail.Split]">
               <umam:SendMail.Attachments>
                 <scg:List x:TypeArguments="InArgument(x:String)" Capacity="0" />
               </umam:SendMail.Attachments>
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
             </umam:SendMail>
-            <umac:CreateEvent Account="{x:Null}" Calendar="{x:Null}" Categories="{x:Null}" Event="{x:Null}" Body="[&quot;Blocking calendar tentaively for interview with &quot;+CandidateEmail]" DisplayName="Create Event 1" EndTime="[convert.ToDateTime(timeslots1(0).MeetingTimeSlot.End.DateTime)]" sap:VirtualizedContainerService.HintSize="434,242" sap2010:WorkflowViewState.IdRef="CreateEvent_1" IsAllDay="False" IsBodyHTML="False" ShowAs="Tentative" StartTime="[convert.ToDateTime(timeslots1(0).MeetingTimeSlot.Start.DateTime)]" Subject="[&quot;Placeholder for Interview with &quot;+CandidateEmail]" Timezone="India Standard Time">
+            <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="1038,25.3333333333333" sap2010:WorkflowViewState.IdRef="CommentOut_8">
+              <ui:CommentOut.Body>
+                <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="450,136" sap2010:WorkflowViewState.IdRef="Sequence_16">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <umam:SendMail Account="{x:Null}" AttachmentsCollection="{x:Null}" Bcc="{x:Null}" Cc="{x:Null}" ReplyTo="{x:Null}" Body="[&quot;Hi &quot;+in_CandidateName+&quot;,&lt;br&gt;&lt;br&gt;Your application for the Revenue Excellence Operations Analyst position caught our attention, and we’d like to invite you for an interview. This is a chance to learn more about the position and for us to learn more about you.You will meet with the Finance department manager. The interview will last about 60 minutes and you’ll have the chance to discuss the Revenue Excellence Operations Analyst position and learn more about our company. Please have your portfolio or resume handy for the discussion. &lt;br&gt;&lt;br&gt;Please feel free to choose the time that suits you best at the following link:&lt;br&gt;&lt;br&gt;&lt;a href = &quot;&quot;mailto: &quot;+RecruiterEmail+&quot;?subject= Available for interview Job ID:&quot;+in_JobID+&quot; Candidate Name:&quot;+in_CandidateName+&quot;&amp;body=I will be available for interview on &quot;+convert.ToDateTime(timeslots1(0).MeetingTimeSlot.Start.DateTime).ToString+&quot;&quot;&quot; &gt;&quot;+convert.ToDateTime(timeslots1(0).MeetingTimeSlot.Start.DateTime).ToString+&quot;&lt;/a&gt;&lt;br&gt;&lt;br&gt;&lt;a href = &quot;&quot;mailto: &quot;+RecruiterEmail+&quot;?subject=Available for interview&amp;body=I will be available for interview on &quot;+convert.ToDateTime(timeslots2(0).MeetingTimeSlot.Start.DateTime).ToString+&quot;&quot;&quot; &gt;&quot;+convert.ToDateTime(timeslots2(0).MeetingTimeSlot.Start.DateTime).ToString+&quot;&lt;/a&gt;&lt;br&gt;&lt;br&gt;&lt;a href = &quot;&quot;mailto: &quot;+RecruiterEmail+&quot;?subject=Available for interview&amp;body=I will be available For interview On &quot;+convert.ToDateTime(timeslots3(0).MeetingTimeSlot.Start.DateTime).ToString+&quot;&quot;&quot; &gt;&quot;+convert.ToDateTime(timeslots3(0).MeetingTimeSlot.Start.DateTime).ToString+&quot;&lt;/a&gt;&lt;br&gt;&lt;br&gt;Looking forward to hearing from you,&lt;br&gt;Talent Acquisition Lead&quot;]" DisplayName="Send Mail" From="[RecruiterEmail]" sap:VirtualizedContainerService.HintSize="388,25.3333333333333" sap2010:WorkflowViewState.IdRef="SendMail_2" Importance="Normal" IsBodyHTML="True" IsDraft="False" Subject="Selected for interview" To="[CandidateEmail.Split]">
+                    <umam:SendMail.Attachments>
+                      <scg:List x:TypeArguments="InArgument(x:String)" Capacity="0" />
+                    </umam:SendMail.Attachments>
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                  </umam:SendMail>
+                </Sequence>
+              </ui:CommentOut.Body>
               <sap:WorkflowViewStateService.ViewState>
                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
                   <x:Boolean x:Key="IsPinned">False</x:Boolean>
                 </scg:Dictionary>
               </sap:WorkflowViewStateService.ViewState>
-            </umac:CreateEvent>
-            <umac:CreateEvent Account="{x:Null}" Calendar="{x:Null}" Categories="{x:Null}" Event="{x:Null}" Body="[&quot;Blocking calendar tentaively for interview with &quot;+CandidateEmail]" DisplayName="Create Event 2" EndTime="[convert.ToDateTime(timeslots2(0).MeetingTimeSlot.End.DateTime)]" sap:VirtualizedContainerService.HintSize="434,242" sap2010:WorkflowViewState.IdRef="CreateEvent_2" IsAllDay="False" IsBodyHTML="False" ShowAs="Tentative" StartTime="[convert.ToDateTime(timeslots2(0).MeetingTimeSlot.Start.DateTime)]" Subject="[&quot;Placeholder for Interview with &quot;+CandidateEmail]" Timezone="India Standard Time">
+            </ui:CommentOut>
+            <If Condition="[not timeslots1.count=0]" sap:VirtualizedContainerService.HintSize="1038,25.3333333333333" sap2010:WorkflowViewState.IdRef="If_4">
               <sap:WorkflowViewStateService.ViewState>
                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
                   <x:Boolean x:Key="IsPinned">False</x:Boolean>
                 </scg:Dictionary>
               </sap:WorkflowViewStateService.ViewState>
-            </umac:CreateEvent>
-            <umac:CreateEvent Account="{x:Null}" Calendar="{x:Null}" Categories="{x:Null}" Event="{x:Null}" Body="[&quot;Blocking calendar tentaively for interview with &quot;+CandidateEmail]" DisplayName="Create Event 3" EndTime="[convert.ToDateTime(timeslots3(0).MeetingTimeSlot.End.DateTime)]" sap:VirtualizedContainerService.HintSize="434,242" sap2010:WorkflowViewState.IdRef="CreateEvent_3" IsAllDay="False" IsBodyHTML="False" ShowAs="Tentative" StartTime="[convert.ToDateTime(timeslots3(0).MeetingTimeSlot.Start.DateTime)]" Subject="[&quot;Placeholder for Interview with &quot;+CandidateEmail]" Timezone="India Standard Time">
+              <If.Then>
+                <Sequence sap:VirtualizedContainerService.HintSize="450,136" sap2010:WorkflowViewState.IdRef="Sequence_17">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <umac:CreateEvent Account="{x:Null}" Calendar="{x:Null}" Categories="{x:Null}" Event="{x:Null}" Body="[&quot;Blocking calendar tentaively for interview with &quot;+CandidateEmail]" DisplayName="Create Event 1" EndTime="[convert.ToDateTime(timeslots1(0).MeetingTimeSlot.End.DateTime)]" sap:VirtualizedContainerService.HintSize="388,25.3333333333333" sap2010:WorkflowViewState.IdRef="CreateEvent_1" IsAllDay="False" IsBodyHTML="False" ShowAs="Tentative" StartTime="[convert.ToDateTime(timeslots1(0).MeetingTimeSlot.Start.DateTime)]" Subject="[&quot;Placeholder for Interview with &quot;+CandidateEmail]" Timezone="India Standard Time">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                  </umac:CreateEvent>
+                </Sequence>
+              </If.Then>
+              <If.Else>
+                <Sequence sap2010:WorkflowViewState.IdRef="Sequence_18">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </Sequence>
+              </If.Else>
+            </If>
+            <If Condition="[not timeslots2.Count=0]" sap:VirtualizedContainerService.HintSize="1038,25.3333333333333" sap2010:WorkflowViewState.IdRef="If_5">
               <sap:WorkflowViewStateService.ViewState>
                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
                   <x:Boolean x:Key="IsPinned">False</x:Boolean>
                 </scg:Dictionary>
               </sap:WorkflowViewStateService.ViewState>
-            </umac:CreateEvent>
+              <If.Then>
+                <Sequence sap:VirtualizedContainerService.HintSize="450,136" sap2010:WorkflowViewState.IdRef="Sequence_19">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <umac:CreateEvent Account="{x:Null}" Calendar="{x:Null}" Categories="{x:Null}" Event="{x:Null}" Body="[&quot;Blocking calendar tentaively for interview with &quot;+CandidateEmail]" DisplayName="Create Event 2" EndTime="[convert.ToDateTime(timeslots2(0).MeetingTimeSlot.End.DateTime)]" sap:VirtualizedContainerService.HintSize="388,25.3333333333333" sap2010:WorkflowViewState.IdRef="CreateEvent_2" IsAllDay="False" IsBodyHTML="False" ShowAs="Tentative" StartTime="[convert.ToDateTime(timeslots2(0).MeetingTimeSlot.Start.DateTime)]" Subject="[&quot;Placeholder for Interview with &quot;+CandidateEmail]" Timezone="India Standard Time">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                  </umac:CreateEvent>
+                </Sequence>
+              </If.Then>
+              <If.Else>
+                <Sequence sap2010:WorkflowViewState.IdRef="Sequence_20">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </Sequence>
+              </If.Else>
+            </If>
+            <If Condition="[not timeslots3.count=0]" sap:VirtualizedContainerService.HintSize="1038,25.3333333333333" sap2010:WorkflowViewState.IdRef="If_6">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <If.Then>
+                <Sequence sap:VirtualizedContainerService.HintSize="450,136" sap2010:WorkflowViewState.IdRef="Sequence_21">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <umac:CreateEvent Account="{x:Null}" Calendar="{x:Null}" Categories="{x:Null}" Event="{x:Null}" Body="[&quot;Blocking calendar tentaively for interview with &quot;+CandidateEmail]" DisplayName="Create Event 3" EndTime="[convert.ToDateTime(timeslots3(0).MeetingTimeSlot.End.DateTime)]" sap:VirtualizedContainerService.HintSize="388,25.3333333333333" sap2010:WorkflowViewState.IdRef="CreateEvent_3" IsAllDay="False" IsBodyHTML="False" ShowAs="Tentative" StartTime="[convert.ToDateTime(timeslots3(0).MeetingTimeSlot.Start.DateTime)]" Subject="[&quot;Placeholder for Interview with &quot;+CandidateEmail]" Timezone="India Standard Time">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                  </umac:CreateEvent>
+                </Sequence>
+              </If.Then>
+              <If.Else>
+                <Sequence sap2010:WorkflowViewState.IdRef="Sequence_22">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </Sequence>
+              </If.Else>
+            </If>
           </Sequence>
         </ActivityAction>
       </uma:Office365ApplicationScope.Body>
@@ -326,6 +625,6 @@
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
     </uma:Office365ApplicationScope>
-    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="530,96" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info" Message="[&quot;Send Invite Dates workflow ended!&quot;]" />
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="1134,96" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info" Message="[&quot;Send Invite Dates workflow ended!&quot;]" />
   </Sequence>
 </Activity>
